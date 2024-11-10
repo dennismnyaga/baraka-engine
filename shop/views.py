@@ -4,10 +4,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from.models import *
 from .serializers import *
-from .sendSms import *
+# from .sendSms import *
 # from .sendSMS import send_message
 # from .sendAnSms import send_batch_response
-from .vonageSms import senn
+# from .vonageSms import senn
 
 
 
@@ -87,16 +87,16 @@ class process_order(APIView):
             
             
             # Send an SMS with the order number to the customer's phone number (example with Twilio)
-            phone_number = customer_data['phone']
-            send_to = phone_number
-            # send_to = ["+254" + int(phone_number)]
+            # phone_number = customer_data['phone']
+            # send_to = phone_number
+            # # send_to = ["+254" + int(phone_number)]
 
-            customer_name = customer_data['first_name']
+            # customer_name = customer_data['first_name']
 
-            print('Customer name ', customer_name)
-            send_message(send_to, order_number, customer_name)
-            # selected_customer_with_debt_phone_numbers = ["+254" + str(customers_with_debts.phone) for customers_with_debts in customers_with_debts]
-            sms_message = f"Thank you for your order! Your order number is {order_number}."
+            # print('Customer name ', customer_name)
+            # send_message(send_to, order_number, customer_name)
+            # # selected_customer_with_debt_phone_numbers = ["+254" + str(customers_with_debts.phone) for customers_with_debts in customers_with_debts]
+            # sms_message = f"Thank you for your order! Your order number is {order_number}."
 
             # send_batch_response()
 
