@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv() 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +30,8 @@ SECRET_KEY = 'django-insecure-0-uh4axtl1usiib#ypmc1a$1qxvq)288pr$i7jr#--5&9=3=zv
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'murilanother.pythonanywhere.com'
+    'murilanother.pythonanywhere.com',
+    '127.0.0.1'
 ]
 
 
@@ -137,5 +141,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://baraka-gas-point.vercel.app"
+    "https://baraka-gas-point.vercel.app",
+    
+    
 ]
+
+
+USER=os.getenv("user")
+API_KEY=os.getenv("api_key")
