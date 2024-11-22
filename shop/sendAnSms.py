@@ -28,11 +28,8 @@ def format_phone_number(phone_number):
 
 
 sinch_client = SinchClient(
-    key_id=os.getenv("access_key"),
-    # key_id="YOUR_key_id",
-    # key_secret="YOUR_key_secret",
+    key_id=os.getenv("access_key"),   
     key_secret=os.getenv("key_secreat"),
-    # project_id="YOUR_project_id"
     project_id=os.getenv("project_id")
 )
 

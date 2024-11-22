@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from.models import *
 from .serializers import *
 from .uwazii import send_sms, format_phone_number  # Ensure these are imported
@@ -11,12 +12,14 @@ from .uwazii import send_sms, format_phone_number  # Ensure these are imported
 
 # Create your views here.
 
-class all_products(APIView):
-    def get(self, request):
-        products = Product.objects.all()
-        serialize = ProductSerializers(products, many=True)
+class all_products(ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializers
+    # def get(self, request):
+    #     products = Product.objects.all()
+    #     serialize = ProductSerializers(products, many=True)
 
-        return Response(serialize.data)
+    #     return Response(serialize.data)
     
 
 class single_product(APIView):
@@ -40,7 +43,6 @@ class process_order(APIView):
 
     def post(self, request):
         try:
-            print('data ', request.data)
             # Extract customer details and cart items from request data
             customer_data = request.data.get('customerDetails')
             cart_items = request.data.get('cartItems')
@@ -112,38 +114,27 @@ class process_order(APIView):
                 formatted_additional_number = format_phone_number(additional_number)
 
                 # Send SMS to the customer
-                customer_sms_response = send_sms(numbers=[phone_number], message=customer_message)
-
-                print('Customer d ', customer_sms_response)
+                try:
+                    customer_sms_response = send_sms(numbers=[phone_number], message=customer_message)
+                
+                except Exception as e:
+                    pass
                 # Send SMS to the admin
-                admin_sms_response = send_sms(numbers=[formatted_additional_number], message=admin_message)
-
-                print('admin ', admin_sms_response)
-                # Check if there were any errors in SMS sending
-                if 'error' in customer_sms_response or 'error' in admin_sms_response:
-                    return Response({'error': 'SMS could not be sent.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                try:
+                    admin_sms_response = send_sms(numbers=[formatted_additional_number], message=admin_message)
+                except Exception as e:
+                    pass
+                # print('admin ', admin_sms_response)
+                # # Check if there were any errors in SMS sending
+                # if 'error' in customer_sms_response or 'error' in admin_sms_response:
+                #     return Response({'error': 'SMS could not be sent.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
                 
             except ValueError as e:
-                return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-            # # selected_customer_with_debt_phone_numbers = ["+254" + str(customers_with_debts.phone) for customers_with_debts in customers_with_debts]
-            # sms_message = f"Thank you for your order! Your order number is {order_number}."
-
-            # send_batch_response()
+                pass
+                # return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
-            # Uncomment and configure this section to use Twilio or another SMS service
-            # account_sid = 'your_account_sid'
-            # auth_token = 'your_auth_token'
-            # client = Client(account_sid, auth_token)
-            # message = client.messages.create(
-            #     body=sms_message,
-            #     from_='+1234567890',  # Your Twilio number
-            #     to=phone_number
-            # )
-            # print('SMS sent:', message.sid)
-            
-            # Serialize and return the created order
             order_serializer = OrderSerializer(order)
             return Response({'message': 'Order created successfully!', 'order': order_serializer.data}, status=status.HTTP_201_CREATED)
 

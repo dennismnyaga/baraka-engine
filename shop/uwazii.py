@@ -1,7 +1,8 @@
 import requests
 from datetime import datetime
 
-
+# Replace this with your actual access token
+ACCESS_TOKEN = 'aa4ce93cf54e5335631812f13e0a2ce1'
 API_URL = 'https://restapi.uwaziimobile.com/v1/send'
 
 def format_phone_number(phone_number):

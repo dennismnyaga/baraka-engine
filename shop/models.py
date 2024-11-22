@@ -51,6 +51,7 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=200, blank=True, null=True)
     phone = models.CharField(max_length=15)
+    date_added = models.DateTimeField(auto_now_add=True)
     
 
     def __str__(self):
