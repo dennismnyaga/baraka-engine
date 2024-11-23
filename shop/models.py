@@ -60,7 +60,6 @@ class Customer(models.Model):
 
 class Orders(models.Model):
     order_number = models.IntegerField(unique=True)
-    # product = models.ForeignKey(Product, on_delete=models.CASCADE)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     location = models.CharField(max_length=200)
     time_ordered = models.DateTimeField(auto_now_add=True)
@@ -70,16 +69,7 @@ class Orders(models.Model):
     def __str__(self):
         return f"Order {self.order_number} by {self.customer}"
     
-    # def save(self, *args, **kwargs):
-    #     if not self.order_number:
-    #         # Generate a random 4-digit number until a unique number is found
-    #         while True:
-    #             random_number = random.randint(1000, 9999)
-    #             if not Orders.objects.filter(order_number=random_number).exists():
-    #                 self.order_number = random_number
-    #                 break
-    #     super().save(*args, **kwargs)
-
+  
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Orders, on_delete=models.CASCADE, related_name='items')
