@@ -13,7 +13,7 @@ from .uwazii import send_sms, format_phone_number  # Ensure these are imported
 # Create your views here.
 
 class all_products(ListAPIView):
-    queryset = Product.objects.all()
+    queryset = Product.objects.order_by('-date_added')
     serializer_class = ProductSerializers
     # def get(self, request):
     #     products = Product.objects.all()
