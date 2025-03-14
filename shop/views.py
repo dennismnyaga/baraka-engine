@@ -142,3 +142,14 @@ class process_order(APIView):
             return Response({'error': 'One or more products do not exist.'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+
+
+class DataVisualization(APIView):
+    def get(self, response):
+        datas = SalesRecord.objects.all()
+
+        serialize = SalesRecordSerializer(datas, many=True)
+
+        return Response(serialize.data, status=status.HTTP_200_OK)

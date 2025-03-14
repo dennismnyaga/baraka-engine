@@ -70,3 +70,15 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Orders
         fields = ['order_number', 'customer', 'location', 'time_ordered', 'items']
+
+
+class ShopsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Shop
+        fields = '__all__'
+
+class SalesRecordSerializer(serializers.ModelSerializer):
+    shop = ShopsSerializer(read_only = True)
+    class Meta:
+        model = SalesRecord
+        fields = '__all__'

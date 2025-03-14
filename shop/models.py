@@ -78,3 +78,27 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name} for Order {self.order.order_number}"
+    
+
+
+
+
+
+
+class Shop(models.Model):
+    name = models.CharField(max_length=200)
+    
+
+    def __str__(self) -> str:
+        return self.name
+
+
+
+class SalesRecord(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0)
+    from_date = models.DateField()
+    to_date = models.DateField()
+
+    def __str__(self) -> str:
+        return self.shop.name
